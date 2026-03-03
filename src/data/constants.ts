@@ -42,54 +42,79 @@ export const classDistribution: ClassPoint[] = [
 ];
 
 // ---------------------------------------------------------------------------
-// Representative Python code snippets shown in slides
+// Python code snippets — sourced directly from src/ in the detection repo.
+// Keep these in sync with Face-Mask-Detection-Python/src/*.py
 // ---------------------------------------------------------------------------
 
 export const codeSnippets: CodeSnippets = {
-    mobilenet: `x = layers.DepthwiseConv2D(3, padding='same')(x)
-x = layers.Conv2D(64, 1, padding='same')(x)
-x = layers.Add()([x, inputs])`,
 
-    preprocessing: `def preprocess_face(self, face_image):
-    # 1. Color Space Parity (BGR to RGB)
+    // src/detector.py :: MaskDetector._preprocess_face
+    preprocessing: `def _preprocess_face(self, face_image):
+    # 1. Colour space — MobileNetV2 expects RGB
     face = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
-    
-    # 2. Aspect-Ratio Preserving Padding
+
+    # 2. Letterbox padding (aspect-ratio preserving)
     h, w = face.shape[:2]
     max_dim = max(h, w)
-    square_img = np.zeros((max_dim, max_dim, 3), dtype="uint8")
-    square_img[dy:dy+h, dx:dx+w] = face
-    
-    # 3. Model Normalization [-1, 1]
-    face = cv2.resize(square_img, (224, 224))
-    return preprocess_input(img_to_array(face))`,
+    square = np.zeros((max_dim, max_dim, 3), dtype=np.uint8)
+    dx = (max_dim - w) // 2
+    dy = (max_dim - h) // 2
+    square[dy:dy+h, dx:dx+w] = face
 
+    # 3. Resize + Keras normalisation [-1, 1]
+    face = cv2.resize(square, config.MODEL_INPUT_SIZE)
+    face = img_to_array(face)
+    return preprocess_input(face).astype(np.float32)`,
+
+    // src/camera.py :: ThreadedCamera
     threading: `class ThreadedCamera:
-    def __init__(self, src=0):
+    def __init__(self, src=0, width=1280, height=720):
         self.cap = cv2.VideoCapture(src)
+        # 1-frame buffer — minimises capture latency
+        self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
         self.read_lock = threading.Lock()
+        self.started   = False
+
+    def start(self):
         self.started = True
-        
-    def update(self):
+        self._thread = threading.Thread(
+            target=self._update, daemon=True)
+        self._thread.start()
+        return self
+
+    def _update(self):           # background worker
         while self.started:
             grabbed, frame = self.cap.read()
             with self.read_lock:
-                self.frame = frame # Atomic Update
                 self.grabbed = grabbed
-            time.sleep(0.005) # Prevent CPU spikes`,
+                self.frame   = frame
+            time.sleep(0.005)   # prevent CPU saturation`,
 
+    // src/detector.py :: YuNetFaceDetector.__init__
+    yunet: `if not os.path.exists(config.FACE_MODEL_YUNET):
+    raise FileNotFoundError(
+        f"YuNet model not found at: {config.FACE_MODEL_YUNET}\\n"
+        "Run 'python setup_env.py' to download it."
+    )
+self._detector = cv2.FaceDetectorYN.create(
+    model=config.FACE_MODEL_YUNET,
+    config="",
+    input_size=(320, 320),
+    score_threshold=config.YUNET_SCORE_THRESHOLD,  # 0.6
+    nms_threshold=config.YUNET_NMS_THRESHOLD,      # 0.3
+    backend_id=cv2.dnn.DNN_BACKEND_DEFAULT,
+    target_id=cv2.dnn.DNN_TARGET_CPU,
+)`,
+
+    // setup_env.py :: Quantize (conceptual — FP16 via TFLite)
     optimization: `# FP16 Quantization via TFLite
 converter = tf.lite.TFLiteConverter.from_keras_model(model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]
 converter.target_spec.supported_types = [tf.float16]
 tflite_model = converter.convert()`,
 
-    yunet: `self.detector = cv2.FaceDetectorYN.create(
-    model=config.FACE_MODEL_YUNET, 
-    input_size=(w, h),
-    score_threshold=0.6,
-    nms_threshold=0.3,
-    backend_id=cv2.dnn.DNN_BACKEND_DEFAULT
-)`,
+    // src/detector.py (adapted from keras layers in training notebook)
+    mobilenet: `x = layers.DepthwiseConv2D(3, padding='same')(x)
+x = layers.Conv2D(64, 1, padding='same')(x)
+x = layers.Add()([x, inputs])`,
 };
-

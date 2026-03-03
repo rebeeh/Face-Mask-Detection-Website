@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 // Layout
 import ProgressBar from './components/layout/ProgressBar';
-import SideNav from './components/layout/SideNav';
+import SideNav, { SLIDE_LABELS } from './components/layout/SideNav';
 import NavControls from './components/layout/NavControls';
 
 // Slides
@@ -88,6 +88,7 @@ export default function App() {
       <SideNav
         count={slides.length}
         current={currentSlide}
+        labels={SLIDE_LABELS}
         onSelect={setCurrentSlide}
       />
 

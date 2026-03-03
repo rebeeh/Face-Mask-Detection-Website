@@ -44,6 +44,7 @@ export interface ProgressBarProps {
 export interface SideNavProps {
     count: number;
     current: number;
+    labels: readonly string[];
     onSelect: (index: number) => void;
 }
 
