@@ -1,35 +1,48 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary Meta -->
-    <title>Safety Vision — Real-Time Face Mask Detection</title>
-    <meta
-      name="description"
-      content="Interactive overview of a production-grade face mask detection system built with YuNet and MobileNetV2, achieving 98.2% precision at 22ms latency."
-    />
-    <meta name="author" content="rebeeh" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Open Graph / Social -->
-    <meta property="og:type"        content="website" />
-    <meta property="og:title"       content="Safety Vision — Real-Time Face Mask Detection" />
-    <meta
-      property="og:description"
-      content="Interactive presentation: YuNet + MobileNetV2 face mask detection achieving 98.2% precision at 22ms latency."
-    />
-    <meta property="og:image"       content="/social-preview.png" />
+  <!-- Primary Meta -->
+  <title>Safety Vision — Real-Time Face Mask Detection</title>
+  <meta name="description"
+    content="Interactive overview of a production-grade face mask detection system built with YuNet and MobileNetV2, achieving 98.2% precision at 22ms latency." />
+  <meta name="author" content="rebeeh" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <!-- Open Graph / Social
+         og:image must be an absolute URL — social crawlers do not resolve
+         relative paths against the page origin.
+    -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://rebeeh.github.io/Face-Mask-Detection-Overview/" />
+  <meta property="og:title" content="Safety Vision — Real-Time Face Mask Detection" />
+  <meta property="og:description"
+    content="Interactive presentation: YuNet + MobileNetV2 face mask detection achieving 98.2% precision at 22ms latency." />
+  <meta property="og:image" content="https://rebeeh.github.io/Face-Mask-Detection-Overview/social-preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Safety Vision — Face Mask Detection system overview" />
 
-    <!-- Google Fonts preconnect for performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Safety Vision — Real-Time Face Mask Detection" />
+  <meta name="twitter:description"
+    content="Interactive presentation: YuNet + MobileNetV2 face mask detection achieving 98.2% precision at 22ms latency." />
+  <meta name="twitter:image" content="https://rebeeh.github.io/Face-Mask-Detection-Overview/social-preview.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+  <!-- Google Fonts preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

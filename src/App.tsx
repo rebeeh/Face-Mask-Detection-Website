@@ -24,8 +24,7 @@ export default function App() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   /**
-   * Stable slides array — recreated only once (no data dependencies change).
-   * Avoids the performance hit of rebuilding the JSX array on every render.
+   * Stable slides array — created once, never rebuilt on re-render.
    */
   const slides: SlideDefinition[] = useMemo(
     () => [
@@ -43,15 +42,13 @@ export default function App() {
     [],
   );
 
-  /**
-   * Stable navigation callbacks — prevents unnecessary re-subscriptions
-   * of the keyboard listener on every render.
-   */
+  /** Navigate to the next slide. Stable ref via `useCallback`. */
   const next = useCallback(
     () => setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1)),
     [slides.length],
   );
 
+  /** Navigate to the previous slide. Stable ref via `useCallback`. */
   const prev = useCallback(
     () => setCurrentSlide(prev => Math.max(prev - 1, 0)),
     [],
@@ -59,14 +56,20 @@ export default function App() {
 
   /**
    * Keyboard navigation.
-   * Bug fix: `next` and `prev` are now stable `useCallback` refs, so this
-   * effect correctly re-runs only when those functions change — no more
-   * stale closure capturing the initial slide index.
+   *
+   * Bug fixes applied:
+   * 1. `next`/`prev` are stable `useCallback` refs — no stale-closure issue.
+   * 2. `e.preventDefault()` is called for Space so the browser doesn't scroll
+   *    the page while the user is navigating the presentation.
    */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowRight' || e.key === ' ') next();
-      if (e.key === 'ArrowLeft') prev();
+      if (e.key === 'ArrowRight') { next(); return; }
+      if (e.key === 'ArrowLeft') { prev(); return; }
+      if (e.key === ' ') {
+        e.preventDefault(); // Prevent page scroll on Space
+        next();
+      }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);

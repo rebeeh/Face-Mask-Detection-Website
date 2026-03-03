@@ -1,12 +1,21 @@
-import CodeBlock from '../ui/CodeBlock';
 import SlideContainer from '../ui/SlideContainer';
-import { codeSnippets } from '../../data/constants';
 import type { StepItem } from '../../types';
+import CodeBlock from '../ui/CodeBlock';
+import { codeSnippets } from '../../data/constants';
 
 const steps: StepItem[] = [
-    { t: 'Color Mapping', d: 'Conversion from OpenCV BGR to MobileNet RGB.' },
-    { t: 'Geometric Square', d: 'Aspect-ratio preserving padding to avoid distortion.' },
-    { t: 'Normalization', d: 'Zero-mean normalization to scale pixel range to [-1, 1].' },
+    {
+        title: 'Color Mapping',
+        description: 'Conversion from OpenCV BGR to MobileNet RGB.',
+    },
+    {
+        title: 'Geometric Square',
+        description: 'Aspect-ratio preserving padding to avoid distortion.',
+    },
+    {
+        title: 'Normalization',
+        description: 'Zero-mean normalization to scale pixel range to [-1, 1].',
+    },
 ];
 
 const PreprocessingSlide: React.FC = () => (
@@ -27,17 +36,17 @@ const PreprocessingSlide: React.FC = () => (
                 </p>
 
                 <div className="space-y-4">
-                    {steps.map((item, i) => (
+                    {steps.map((step, i) => (
                         <div
-                            key={i}
+                            key={step.title}
                             className="flex gap-4 p-5 rounded-3xl bg-white/5 border border-white/5 hover:border-white/10 transition-all"
                         >
                             <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black shrink-0">
                                 0{i + 1}
                             </div>
                             <div>
-                                <h4 className="text-white text-sm font-bold">{item.t}</h4>
-                                <p className="text-slate-500 text-xs">{item.d}</p>
+                                <h4 className="text-white text-sm font-bold">{step.title}</h4>
+                                <p className="text-slate-500 text-xs">{step.description}</p>
                             </div>
                         </div>
                     ))}

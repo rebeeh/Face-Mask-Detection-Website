@@ -49,9 +49,9 @@ export interface SideNavProps {
 
 export interface NavControlsProps {
     current: number;
-    total: number;
     onNext: () => void;
     onPrev: () => void;
+    total: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -59,8 +59,8 @@ export interface NavControlsProps {
 // ---------------------------------------------------------------------------
 
 export interface TrainingEpoch {
-    epoch: number;
     acc: number;
+    epoch: number;
     loss: number;
     val_acc: number;
     val_loss: number;
@@ -84,19 +84,29 @@ export interface CodeSnippets {
     yunet: string;
 }
 
+// ---------------------------------------------------------------------------
+// Display items — readable, self-documenting field names
+// ---------------------------------------------------------------------------
+
+/** A statistic tile shown on the Hero slide (label / value / colorClass). */
 export interface StatItem {
-    c: string;
-    l: string;
-    v: string;
+    label: string;
+    value: string;
+    colorClass: string;
 }
 
+/**
+ * A labelled metric with a progress bar (label / value / backgroundClass).
+ * Previously was a separate but structurally identical `MetricItem`.
+ */
 export interface MetricItem {
-    c: string;
-    l: string;
-    v: string;
+    label: string;
+    value: string;
+    bgClass: string;
 }
 
+/** A numbered step shown in the Preprocessing slide (title / description). */
 export interface StepItem {
-    d: string;
-    t: string;
+    title: string;
+    description: string;
 }

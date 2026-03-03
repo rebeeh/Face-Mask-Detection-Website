@@ -3,15 +3,22 @@ import {
     XAxis, YAxis, Tooltip, ResponsiveContainer,
 } from 'recharts';
 import { TrendingDown, TrendingUp } from 'lucide-react';
+import { motion } from 'framer-motion';
 import GlassCard from '../ui/GlassCard';
 import SlideContainer from '../ui/SlideContainer';
 import { trainingHistory } from '../../data/constants';
 import type { MetricItem } from '../../types';
 
 const qualityMetrics: MetricItem[] = [
-    { l: 'F1 Score', v: '0.978', c: 'bg-emerald-500' },
-    { l: 'mAP@.5', v: '0.962', c: 'bg-cyan-500' },
+    { label: 'F1 Score', value: '0.978', bgClass: 'bg-emerald-500' },
+    { label: 'mAP@.5', value: '0.962', bgClass: 'bg-cyan-500' },
 ];
+
+/**
+ * Unique gradient ID avoids conflicts during AnimatePresence transitions
+ * where two instances of this component briefly coexist in the DOM.
+ */
+const GRADIENT_ID = 'analytics-acc-gradient';
 
 const AnalyticsSlide: React.FC = () => (
     <SlideContainer>
@@ -43,7 +50,11 @@ const AnalyticsSlide: React.FC = () => (
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={trainingHistory} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <defs>
-                                    <linearGradient id="accG" x1="0" y1="0" x2="0" y2="1">
+                                    {/*
+                   * Unique ID prevents gradient conflicts during AnimatePresence
+                   * transitions when two slide instances exist simultaneously.
+                   */}
+                                    <linearGradient id={GRADIENT_ID} x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#10b981" stopOpacity={0.2} />
                                         <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                                     </linearGradient>
@@ -59,7 +70,7 @@ const AnalyticsSlide: React.FC = () => (
                                         fontSize: '10px',
                                     }}
                                 />
-                                <Area type="monotone" dataKey="acc" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#accG)" />
+                                <Area type="monotone" dataKey="acc" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill={`url(#${GRADIENT_ID})`} />
                                 <Area type="monotone" dataKey="val_acc" stroke="#06b6d4" strokeWidth={2} strokeDasharray="5 5" fill="none" />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -80,19 +91,22 @@ const AnalyticsSlide: React.FC = () => (
                         </div>
                     </GlassCard>
 
-                    {/* Quality metrics */}
+                    {/* Quality metrics with progress bars */}
                     <GlassCard title="Quality Metrics">
                         <div className="space-y-4 pt-2">
-                            {qualityMetrics.map((item, i) => (
-                                <div key={i} className="flex flex-col">
+                            {qualityMetrics.map((metric) => (
+                                <div key={metric.label} className="flex flex-col">
                                     <div className="flex justify-between text-[10px] text-slate-500 uppercase font-bold mb-1">
-                                        <span>{item.l}</span>
-                                        <span>{item.v}</span>
+                                        <span>{metric.label}</span>
+                                        <span>{metric.value}</span>
                                     </div>
                                     <div className="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                                        <div
-                                            className={`h-full ${item.c} rounded-full`}
-                                            style={{ width: `${parseFloat(item.v) * 100}%` }}
+                                        <motion.div
+                                            className={`h-full ${metric.bgClass} rounded-full`}
+                                            initial={{ width: 0 }}
+                                            whileInView={{ width: `${parseFloat(metric.value) * 100}%` }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.8, ease: 'easeOut' }}
                                         />
                                     </div>
                                 </div>

@@ -4,10 +4,10 @@ import SlideContainer from '../ui/SlideContainer';
 import type { StatItem } from '../../types';
 
 const stats: StatItem[] = [
-    { l: 'Precision', v: '98.2%', c: 'text-emerald-400' },
-    { l: 'Recall', v: '97.5%', c: 'text-cyan-400' },
-    { l: 'Latency', v: '22ms', c: 'text-amber-400' },
-    { l: 'Architecture', v: 'SOTA', c: 'text-rose-400' },
+    { label: 'Precision', value: '98.2%', colorClass: 'text-emerald-400' },
+    { label: 'Recall', value: '97.5%', colorClass: 'text-cyan-400' },
+    { label: 'Latency', value: '22ms', colorClass: 'text-amber-400' },
+    { label: 'Architecture', value: 'SOTA', colorClass: 'text-rose-400' },
 ];
 
 const HeroSlide: React.FC = () => (
@@ -33,15 +33,15 @@ const HeroSlide: React.FC = () => (
             </p>
 
             <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4">
-                {stats.map((s, i) => (
+                {stats.map((stat) => (
                     <div
-                        key={i}
+                        key={stat.label}
                         className="bg-white/5 border border-white/5 rounded-3xl p-6 text-center shadow-xl"
                     >
                         <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
-                            {s.l}
+                            {stat.label}
                         </p>
-                        <p className={`text-3xl font-black ${s.c}`}>{s.v}</p>
+                        <p className={`text-3xl font-black ${stat.colorClass}`}>{stat.value}</p>
                     </div>
                 ))}
             </div>
