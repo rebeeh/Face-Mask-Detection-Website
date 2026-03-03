@@ -2,8 +2,11 @@ import { motion } from 'framer-motion';
 import { Github, Shield } from 'lucide-react';
 import SlideContainer from '../ui/SlideContainer';
 
-/** The GitHub repository URL — update if the repo name changes. */
-const REPO_URL = 'https://github.com/rebeeh/Face-Mask-Detection-Overview';
+/** Python detection code — the repo this presentation showcases. */
+const REPO_URL = 'https://github.com/rebeeh/Face-Mask-Detection-Python';
+
+/** This presentation site's own repository. */
+const OVERVIEW_URL = 'https://github.com/rebeeh/Face-Mask-Detection-Overview';
 
 const ConclusionSlide: React.FC = () => (
     <SlideContainer>
@@ -32,15 +35,15 @@ const ConclusionSlide: React.FC = () => (
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 px-12 py-5 bg-emerald-500 text-slate-950 font-black rounded-2xl hover:bg-emerald-400 transition-all shadow-2xl active:scale-95"
             >
-                <Github size={20} /> REPOSITORY
+                <Github size={20} /> CODE REPO
             </a>
             <a
-                href={`${REPO_URL}#readme`}
+                href={OVERVIEW_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 px-12 py-5 bg-white/5 text-white font-bold rounded-2xl border border-white/10 hover:bg-white/10 transition-all active:scale-95 shadow-xl"
             >
-                DOCUMENTATION
+                THIS PRESENTATION
             </a>
         </div>
     </SlideContainer>

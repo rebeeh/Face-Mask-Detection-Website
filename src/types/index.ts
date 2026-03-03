@@ -78,6 +78,7 @@ export interface ClassPoint {
 }
 
 export interface CodeSnippets {
+    mobilenet: string;
     optimization: string;
     preprocessing: string;
     threading: string;

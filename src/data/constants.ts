@@ -46,6 +46,10 @@ export const classDistribution: ClassPoint[] = [
 // ---------------------------------------------------------------------------
 
 export const codeSnippets: CodeSnippets = {
+    mobilenet: `x = layers.DepthwiseConv2D(3, padding='same')(x)
+x = layers.Conv2D(64, 1, padding='same')(x)
+x = layers.Add()([x, inputs])`,
+
     preprocessing: `def preprocess_face(self, face_image):
     # 1. Color Space Parity (BGR to RGB)
     face = cv2.cvtColor(face_image, cv2.COLOR_BGR2RGB)
@@ -88,3 +92,4 @@ tflite_model = converter.convert()`,
     backend_id=cv2.dnn.DNN_BACKEND_DEFAULT
 )`,
 };
+

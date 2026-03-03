@@ -4,6 +4,10 @@
 
 [![Deploy to GitHub Pages](https://github.com/rebeeh/Face-Mask-Detection-Overview/actions/workflows/deploy.yaml/badge.svg)](https://github.com/rebeeh/Face-Mask-Detection-Overview/actions/workflows/deploy.yaml)
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-emerald)](https://rebeeh.github.io/Face-Mask-Detection-Overview/)
+[![Detection Code](https://img.shields.io/badge/Detection%20Code-Python%20Repo-blue)](https://github.com/rebeeh/Face-Mask-Detection-Python)
+
+> 🐍 **Looking for the actual detection system?** The Python source code (OpenCV + TensorFlow) lives at  
+> **[github.com/rebeeh/Face-Mask-Detection-Python](https://github.com/rebeeh/Face-Mask-Detection-Python)**
 
 ---
 

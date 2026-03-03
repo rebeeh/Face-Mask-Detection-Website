@@ -1,10 +1,7 @@
 import { Boxes, Layers } from 'lucide-react';
 import CodeBlock from '../ui/CodeBlock';
 import SlideContainer from '../ui/SlideContainer';
-
-const layerCode = `x = layers.DepthwiseConv2D(3, padding='same')(x)
-x = layers.Conv2D(64, 1, padding='same')(x)
-x = layers.Add()([x, inputs])`;
+import { codeSnippets } from '../../data/constants';
 
 const MobileNetSlide: React.FC = () => (
     <SlideContainer>
@@ -32,7 +29,7 @@ const MobileNetSlide: React.FC = () => (
                         <div>
                             <h4 className="font-bold text-white text-sm">Depthwise Convolutions</h4>
                             <p className="text-slate-500 text-xs">
-                                Reduces compute by 9x through channel-wise filtering.
+                                Reduces compute by 9× through channel-wise filtering.
                             </p>
                         </div>
                     </div>
@@ -41,7 +38,7 @@ const MobileNetSlide: React.FC = () => (
 
             <CodeBlock
                 title="mobilenet_v2.py :: LayerLogic"
-                code={layerCode}
+                code={codeSnippets.mobilenet}
                 color="amber"
             />
         </div>
